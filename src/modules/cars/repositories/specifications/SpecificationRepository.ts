@@ -30,4 +30,8 @@ export class SpecifactionsRepository implements ISpecificationsRepository {
 
     return specification;
   }
+
+  list(): Specification[] {
+    return this.specifications;
+  }
 }
