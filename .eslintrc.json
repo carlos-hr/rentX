@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-import-helpers"],
   "rules": {
+    "arrow-body-style": "off",
     "comma-dangle": "off",
     "operator-linebreak": "off",
     "linebreak-style": 0,
