@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-import-helpers"],
   "rules": {
+    "array-callback-return": "off",
     "no-use-before-define": "off",
     "arrow-body-style": "off",
     "comma-dangle": "off",
