@@ -6,9 +6,17 @@ import {
 
 export class SpecifactionsRepository implements ISpecificationsRepository {
   private specifications: Specification[] = [];
+  private static INSTANCE: SpecifactionsRepository;
 
-  constructor() {
+  private constructor() {
     this.specifications = [];
+  }
+
+  public static getInstance() {
+    if (!SpecifactionsRepository.INSTANCE) {
+      SpecifactionsRepository.INSTANCE = new SpecifactionsRepository();
+    }
+    return SpecifactionsRepository.INSTANCE;
   }
 
   create({ description, name }: ISpecificationsDTO): void {
