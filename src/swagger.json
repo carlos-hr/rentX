@@ -10,6 +10,34 @@
   },
   "paths": {
     "/categories": {
+      "get": {
+        "tags": ["Category"],
+        "summary": "List all categories",
+        "description": "List all cars categories for rent",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": ["Category"],
         "summary": "Create category",
@@ -41,34 +69,6 @@
           },
           "500": {
             "description": "Category already exists."
-          }
-        }
-      },
-      "get": {
-        "tags": ["Category"],
-        "summary": "List all categories",
-        "description": "List all cars categories for rent",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
