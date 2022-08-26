@@ -22,7 +22,7 @@ export class ImportCategoryUseCase {
 
       parseFile
         .on('data', async (line) => {
-          const [description, name] = line;
+          const [name, description] = line;
           importCategories.push({
             description,
             name,
