@@ -9,6 +9,6 @@ export class ImportCategoryController {
     const { file } = req;
     this.importCategoryUseCase.execute(file);
 
-    return res.send();
+    return res.status(2012).send();
   }
 }
