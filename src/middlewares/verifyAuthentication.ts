@@ -34,6 +34,10 @@ export async function verifyAuthentication(
       throw new AppError('User not found', 401);
     }
 
+    req.user = {
+      id: user_id,
+    };
+
     next();
   } catch {
     throw new AppError('Invalid token', 401);
