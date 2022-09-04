@@ -1,4 +1,4 @@
-import { Category } from '../../model/Category';
+import { Category } from '../infra/typeorm/model/Category';
 
 export interface ICreateCategoryDTO {
   description: string;
