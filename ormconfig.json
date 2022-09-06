@@ -5,12 +5,9 @@
   "username": "docker_rentx",
   "password": "ignite_rentx",
   "database": "rentx",
-  "entities": [
-    "./src/modules/cars/model/*.ts",
-    "./src/modules/accounts/model/*.ts"
-  ],
-  "migrations": ["./src/database/migrations/*.ts"],
+  "entities": ["./src/modules/**/model/*.ts"],
+  "migrations": ["./src/shared/infra/database/migrations/*.ts"],
   "cli": {
-    "migrationsDir": "./src/database/migrations"
+    "migrationsDir": "./src/shared/infra/database/migrations"
   }
 }
