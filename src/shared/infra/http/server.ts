@@ -7,9 +7,10 @@ import swaggerUi from 'swagger-ui-express';
 import { AppError } from '@errors/AppError';
 import { router } from './routes';
 import swaggerSetup from '../../../swagger.json';
-import '../database';
 import '@shared/container';
+import createConnection from '@shared/infra/database';
 
+createConnection();
 const app = express();
 
 app.use(express.json());
