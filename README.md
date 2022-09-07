@@ -42,7 +42,6 @@
 **Requisitios funcionais**
 
 - Deve ser possível cadastrar a imagem do carro.
-- Deve ser possível listar todos os carros.
 
 **Requisitios não funcionais**
 
