@@ -27,7 +27,7 @@ describe('Create car Specification', () => {
   });
 
   it('Should be able to add a new specification into a car', async () => {
-    const newCar = await carsRepositoryInMemory.create({
+    const car = await carsRepositoryInMemory.create({
       brand: 'brand',
       category_id: 'category_id',
       daily_rate: 70,
@@ -37,9 +37,16 @@ describe('Create car Specification', () => {
       name: 'name',
     });
 
-    await createCarSpecificationUseCase.execute({
-      car_id: newCar.id,
-      specifications_id: ['specifications_id_1', 'specifications_id_2'],
+    const specification = await specificationsRepositoryInMemory.create({
+      description: 'teste',
+      name: 'teste',
     });
+
+    await createCarSpecificationUseCase.execute({
+      car_id: car.id,
+      specifications_id: [specification.id],
+    });
+
+    console.log(car);
   });
 });
