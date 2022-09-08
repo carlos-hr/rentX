@@ -7,33 +7,33 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-// @Entity('rentals')
+@Entity('rentals')
 export class Rental {
-  // @PrimaryColumn()
+  @PrimaryColumn()
   id: string;
 
-  // @Column()
+  @Column()
   car_id: string;
 
-  // @Column()
+  @Column()
   user_id: string;
 
-  // @CreateDateColumn()
+  @CreateDateColumn()
   start_date: Date;
 
-  // @Column()
+  @Column()
   end_date: Date;
 
-  // @Column()
+  @Column()
   expected_return_date: Date;
 
-  // @CreateDateColumn()
+  @CreateDateColumn()
   created_at: Date;
 
-  // @UpdateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 
-  // @Column()
+  @Column()
   total: number;
 
   constructor() {

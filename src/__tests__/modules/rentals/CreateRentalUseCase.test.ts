@@ -61,7 +61,7 @@ describe('Create rental', () => {
     expect(async () => {
       await createRentalUseCase.execute({
         car_id: 'test',
-        expected_return_date: dayjs().add(1, 'hour').toDate(),
+        expected_return_date: dayjs().toDate(),
         user_id: 'nanana',
       });
     }).rejects.toBeInstanceOf(AppError);
