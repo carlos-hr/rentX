@@ -2,6 +2,7 @@ import { AppError } from '@errors/AppError';
 import { Rental } from '@modules/rentals/infra/typeorm/model/Rental';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
 import { dateCompare } from '@utils/dateCompare';
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   user_id: string;
@@ -9,8 +10,12 @@ interface IRequest {
   expected_return_date: Date;
 }
 
+@injectable()
 export class CreateRentalUseCase {
-  constructor(private rentalsRepository: IRentalsRepository) {}
+  constructor(
+    @inject('RentalsRepository')
+    private rentalsRepository: IRentalsRepository
+  ) {}
   async execute({
     car_id,
     expected_return_date,
