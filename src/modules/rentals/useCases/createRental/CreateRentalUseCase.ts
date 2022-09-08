@@ -1,6 +1,8 @@
 import { AppError } from '@errors/AppError';
 import { Rental } from '@modules/rentals/infra/typeorm/model/Rental';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
+import dayjs from 'dayjs';
+import { SimpleConsoleLogger } from 'typeorm';
 
 interface IRequest {
   user_id: string;
@@ -29,6 +31,12 @@ export class CreateRentalUseCase {
 
     if (userRental) {
       throw new AppError('User already has an open rental');
+    }
+
+    const compareDate = dayjs(expected_return_date).diff(new Date(), 'hours');
+
+    if (compareDate < 24) {
+      throw new AppError('The rental must have a minimum duration of 24 hours');
     }
 
     const rental = await this.rentalsRepository.create({

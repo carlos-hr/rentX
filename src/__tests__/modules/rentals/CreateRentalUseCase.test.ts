@@ -1,9 +1,12 @@
 import { AppError } from '@errors/AppError';
 import { RentasRepositoryInMemory } from '@modules/rentals/repositories/inMemory/RentasRepositoryInMemory';
 import { CreateRentalUseCase } from '@modules/rentals/useCases/createRental/CreateRentalUseCase';
+import dayjs from 'dayjs';
 
 let createRentalUseCase: CreateRentalUseCase;
 let rentalsRepositoryInMemory: RentasRepositoryInMemory;
+
+const validDate = dayjs().add(1, 'day').add(1, 'hour').toDate();
 
 describe('Create rental', () => {
   beforeEach(() => {
@@ -14,7 +17,7 @@ describe('Create rental', () => {
   it('Should be able to create a new rental', async () => {
     const rental = await createRentalUseCase.execute({
       car_id: 'nanan',
-      expected_return_date: new Date(),
+      expected_return_date: validDate,
       user_id: 'bababa',
     });
 
@@ -26,13 +29,13 @@ describe('Create rental', () => {
     expect(async () => {
       await createRentalUseCase.execute({
         car_id: 'test',
-        expected_return_date: new Date(),
+        expected_return_date: validDate,
         user_id: 'bababa',
       });
 
       await createRentalUseCase.execute({
         car_id: 'test2',
-        expected_return_date: new Date(),
+        expected_return_date: validDate,
         user_id: 'bababa',
       });
     }).rejects.toBeInstanceOf(AppError);
@@ -42,14 +45,24 @@ describe('Create rental', () => {
     expect(async () => {
       await createRentalUseCase.execute({
         car_id: 'test',
-        expected_return_date: new Date(),
+        expected_return_date: validDate,
         user_id: 'nanana',
       });
 
       await createRentalUseCase.execute({
         car_id: 'test',
-        expected_return_date: new Date(),
+        expected_return_date: validDate,
         user_id: 'bababa',
+      });
+    }).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('Should not be able to create rentals with less than 24 hours duration', async () => {
+    expect(async () => {
+      await createRentalUseCase.execute({
+        car_id: 'test',
+        expected_return_date: dayjs().add(1, 'hour').toDate(),
+        user_id: 'nanana',
       });
     }).rejects.toBeInstanceOf(AppError);
   });
