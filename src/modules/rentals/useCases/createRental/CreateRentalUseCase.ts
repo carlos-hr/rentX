@@ -1,4 +1,5 @@
 import { AppError } from '@errors/AppError';
+import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 import { Rental } from '@modules/rentals/infra/typeorm/model/Rental';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
 import { dateCompare } from '@utils/dateCompare';
@@ -14,7 +15,10 @@ interface IRequest {
 export class CreateRentalUseCase {
   constructor(
     @inject('RentalsRepository')
-    private rentalsRepository: IRentalsRepository
+    private rentalsRepository: IRentalsRepository,
+
+    @inject('CarsRepository')
+    private carsRepository: ICarsRepository
   ) {}
   async execute({
     car_id,
@@ -49,6 +53,7 @@ export class CreateRentalUseCase {
       user_id,
     });
 
+    await this.carsRepository.updateAvailability(car_id, false);
     return rental;
   }
 }
