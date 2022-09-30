@@ -1,17 +1,23 @@
 import { AppError } from '@errors/AppError';
+import { CarsRepositoryInMemory } from '@modules/cars/repositories/in-memory/CarsRepositoryInMemory';
 import { RentasRepositoryInMemory } from '@modules/rentals/repositories/inMemory/RentasRepositoryInMemory';
 import { CreateRentalUseCase } from '@modules/rentals/useCases/createRental/CreateRentalUseCase';
 import dayjs from 'dayjs';
 
 let createRentalUseCase: CreateRentalUseCase;
 let rentalsRepositoryInMemory: RentasRepositoryInMemory;
+let carsRepositoryInMemory: CarsRepositoryInMemory;
 
 const validDate = dayjs().add(1, 'day').add(1, 'hour').toDate();
 
 describe('Create rental', () => {
   beforeEach(() => {
     rentalsRepositoryInMemory = new RentasRepositoryInMemory();
-    createRentalUseCase = new CreateRentalUseCase(rentalsRepositoryInMemory);
+    carsRepositoryInMemory = new CarsRepositoryInMemory();
+    createRentalUseCase = new CreateRentalUseCase(
+      rentalsRepositoryInMemory,
+      carsRepositoryInMemory
+    );
   });
 
   it('Should be able to create a new rental', async () => {
