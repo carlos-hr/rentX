@@ -2,7 +2,7 @@ import { AppError } from '@errors/AppError';
 import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 import { Rental } from '@modules/rentals/infra/typeorm/model/Rental';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
-import { dateCompare } from '@utils/dateCompare';
+import { compareInHours, dateNow } from '@utils/dateCompare';
 import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
@@ -41,7 +41,7 @@ export class CreateRentalUseCase {
       throw new AppError('User already has an open rental');
     }
 
-    const rentTime = dateCompare(expected_return_date);
+    const rentTime = compareInHours(dateNow, expected_return_date);
 
     if (rentTime < 24) {
       throw new AppError('The rental must have a minimum duration of 24 hours');

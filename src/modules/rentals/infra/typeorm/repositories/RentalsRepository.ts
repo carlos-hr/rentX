@@ -31,4 +31,8 @@ export class RentalsRepository implements IRentalsRepository {
 
     return rental;
   }
+
+  async findRentalById(id: string): Promise<Rental> {
+    return this.repository.findOne({ id });
+  }
 }
