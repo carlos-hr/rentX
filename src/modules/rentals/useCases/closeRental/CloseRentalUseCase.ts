@@ -2,13 +2,9 @@ import { AppError } from '@errors/AppError';
 import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
 import { compareInDays, dateNow } from '@utils/dateCompare';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
-interface IRequest {
-  id: string;
-  user_id: string;
-}
-
+@injectable()
 export class CloseRentalUseCase {
   constructor(
     @inject('RentalsRepository')
@@ -18,9 +14,9 @@ export class CloseRentalUseCase {
     private carsRepository: ICarsRepository
   ) {}
 
-  async execute({ id, user_id }: IRequest) {
+  async execute(id: string) {
     const rental = await this.rentalsRepository.findRentalById(id);
-    const car = await this.carsRepository.findById(id);
+    const car = await this.carsRepository.findById(rental.car_id);
 
     const minimumDaily = 1;
     let total = 0;
