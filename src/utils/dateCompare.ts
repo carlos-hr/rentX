@@ -1,6 +1,24 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
-export function dateCompare(end_date: Date): number {
-  const compareDate = dayjs(end_date).diff(dayjs().toDate(), 'hours');
+dayjs.extend(utc);
+
+export const dateNow = dayjs().toDate();
+
+function convertToUTC(date: Date) {
+  return dayjs.utc(date).local().format();
+}
+
+export function compareInHours(start_date, end_date: Date): number {
+  const utc_end_date = convertToUTC(end_date);
+  const compareDate = dayjs(utc_end_date).diff(start_date, 'hours');
+
+  return compareDate;
+}
+
+export function compareInDays(start_date, end_date: Date) {
+  const utc_end_date = convertToUTC(end_date);
+  const compareDate = dayjs(utc_end_date).diff(start_date, 'days');
+
   return compareDate;
 }

@@ -1,7 +1,7 @@
 import { Rental } from '@modules/rentals/infra/typeorm/model/Rental';
 import { IRentalsRepository } from '../IRentalsRepository';
 
-export class RentasRepositoryInMemory implements IRentalsRepository {
+export class RentalsRepositoryInMemory implements IRentalsRepository {
   rentals: Rental[] = [];
 
   async findOpenRentalByCarId(car_id: string): Promise<Rental> {
@@ -33,5 +33,13 @@ export class RentasRepositoryInMemory implements IRentalsRepository {
     this.rentals.push(rental);
 
     return rental;
+  }
+
+  async findRentalById(id: string): Promise<Rental> {
+    return this.rentals.find((rental) => rental.id === id);
+  }
+
+  async findRentalByUserId(user_id: string): Promise<Rental> {
+    return this.rentals.find((rental) => rental.id === user_id);
   }
 }
