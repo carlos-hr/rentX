@@ -32,21 +32,21 @@ describe('Create category', () => {
   });
 
   it('Should not be able to create categories with repeated names', async () => {
-    expect(async () => {
-      const category = {
-        name: 'Category Test',
-        description: 'Category used for test',
-      };
+    const category = {
+      name: 'Category Test',
+      description: 'Category used for test',
+    };
 
-      await createCategoryUseCase.execute({
+    await createCategoryUseCase.execute({
+      description: category.description,
+      name: category.name,
+    });
+
+    await expect(
+      createCategoryUseCase.execute({
         description: category.description,
         name: category.name,
-      });
-
-      await createCategoryUseCase.execute({
-        description: category.description,
-        name: category.name,
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('Category already exists!'));
   });
 });
