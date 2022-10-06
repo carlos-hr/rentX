@@ -35,48 +35,30 @@ describe('Authenticate user', () => {
     expect(response).toHaveProperty('token');
   });
 
-  it('Should not be able to authenticate non-existing user', () => {
-    expect(async () => {
-      await authenticateUserUseCase.execute({
+  it('Should not be able to authenticate non-existing user', async () => {
+    await expect(
+      authenticateUserUseCase.execute({
         email: 'user@email.com',
         password: 'password',
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('Email or password incorrect', 401));
   });
 
-  it('Should not be able to authenticate with incorrect password', () => {
-    expect(async () => {
-      const user: ICreateUserDTO = {
-        driver_license: 'aaaaa',
-        email: 'user2@teste.com',
-        name: 'Username',
-        password: 'teste123',
-      };
+  it('Should not be able to authenticate user with incorrect password', async () => {
+    const user: ICreateUserDTO = {
+      driver_license: 'aaaaa',
+      email: 'user2@teste.com',
+      name: 'Username',
+      password: 'teste123',
+    };
 
-      await createUserUseCase.execute(user);
+    await createUserUseCase.execute(user);
 
-      await authenticateUserUseCase.execute({
+    await expect(
+      authenticateUserUseCase.execute({
         email: user.email,
         password: 'wrong-password',
-      });
-    }).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('Should not be able to authenticate with incorrect password', () => {
-    expect(async () => {
-      const user: ICreateUserDTO = {
-        driver_license: 'aaaaa',
-        email: 'user3@teste.com',
-        name: 'Username',
-        password: 'teste123',
-      };
-
-      await createUserUseCase.execute(user);
-
-      await authenticateUserUseCase.execute({
-        email: 'teste@email.com',
-        password: user.password,
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('Email or password incorrect', 401));
   });
 });
