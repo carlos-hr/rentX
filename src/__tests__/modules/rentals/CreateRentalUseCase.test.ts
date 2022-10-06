@@ -42,7 +42,7 @@ describe('Create rental', () => {
   });
 
   it('Should not be able to have more than one open rental per user', async () => {
-    await createRentalUseCase.execute({
+    await rentalsRepositoryInMemory.create({
       car_id: 'test',
       expected_return_date: validDate,
       user_id: 'bababa',
@@ -58,7 +58,7 @@ describe('Create rental', () => {
   });
 
   it('Should not be able to have more than one open rental per car', async () => {
-    const rental = await createRentalUseCase.execute({
+    await rentalsRepositoryInMemory.create({
       car_id: 'test',
       expected_return_date: validDate,
       user_id: 'nanana',
