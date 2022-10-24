@@ -7,4 +7,9 @@ export interface IUsersTokensRepository {
     refresh_token,
     user_id,
   }: ICreateUsersTokens): Promise<UsersTokens>;
+  findByCredentials(
+    user_id: string,
+    refresh_token: string
+  ): Promise<UsersTokens>;
+  deleteToken(id: string): Promise<void>;
 }

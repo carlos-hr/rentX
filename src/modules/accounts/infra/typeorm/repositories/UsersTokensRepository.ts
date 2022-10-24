@@ -25,4 +25,20 @@ export class UsersTokensRepository implements IUsersTokensRepository {
 
     return userToken;
   }
+
+  async findByCredentials(
+    user_id: string,
+    refresh_token: string
+  ): Promise<UsersTokens> {
+    const usersToken = await this.repository.findOne({
+      user_id,
+      refresh_token,
+    });
+
+    return usersToken;
+  }
+
+  async deleteToken(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }
