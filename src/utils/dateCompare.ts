@@ -22,3 +22,7 @@ export function compareInDays(start_date, end_date: Date) {
 
   return compareDate;
 }
+
+export function addDays(days: number): Date {
+  return dayjs().add(days, 'days').toDate();
+}
