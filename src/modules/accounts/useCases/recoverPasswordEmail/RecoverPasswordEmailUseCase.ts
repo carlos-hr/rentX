@@ -5,6 +5,7 @@ import { IMailProvider } from '@shared/container/providers/MailProvider/IMailPro
 import { addHours } from '@utils/dateCompare';
 import { inject, injectable } from 'tsyringe';
 import { v4 } from 'uuid';
+import { resolve } from 'path';
 
 @injectable()
 export class RecoverPasswordEmailUseCase {
@@ -21,6 +22,14 @@ export class RecoverPasswordEmailUseCase {
 
   async execute(email: string) {
     const user = await this.usersRepository.findByEmail(email);
+    const templatePath = resolve(
+      __dirname,
+      '..',
+      '..',
+      'views',
+      'emails',
+      'forgotPassword.hbs'
+    );
 
     if (!user) {
       throw new AppError('User not found.');
@@ -35,10 +44,16 @@ export class RecoverPasswordEmailUseCase {
       expires_date,
     });
 
+    const variables = {
+      name: user.name,
+      link: `${process.env.RECOVER_MAIL_URL}${token}`,
+    };
+
     await this.etherealMailProvider.sendMail(
       email,
-      'Recover password',
-      `Click in the link to recover your password ${token}`
+      'Email recovery',
+      variables,
+      templatePath
     );
   }
 }
