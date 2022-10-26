@@ -1,6 +1,7 @@
 import { AppError } from '@errors/AppError';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository';
+import { IMailProvider } from '@shared/container/providers/MailProvider/IMailProvider';
 import { addHours } from '@utils/dateCompare';
 import { inject, injectable } from 'tsyringe';
 import { v4 } from 'uuid';
@@ -12,7 +13,10 @@ export class RecoverPasswordEmailUseCase {
     private usersRepository: IUsersRepository,
 
     @inject('UsersTokensRepository')
-    private usersTokensRepository: IUsersTokensRepository
+    private usersTokensRepository: IUsersTokensRepository,
+
+    @inject('EtherealMailProvider')
+    private etherealMailProvider: IMailProvider
   ) {}
 
   async execute(email: string) {
@@ -30,5 +34,11 @@ export class RecoverPasswordEmailUseCase {
       user_id: user.id,
       expires_date,
     });
+
+    await this.etherealMailProvider.sendMail(
+      email,
+      'Recover password',
+      `Click in the link to recover your password ${token}`
+    );
   }
 }
