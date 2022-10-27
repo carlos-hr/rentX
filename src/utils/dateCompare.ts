@@ -9,7 +9,7 @@ function convertToUTC(date: Date) {
   return dayjs.utc(date).local().format();
 }
 
-export function compareInHours(start_date, end_date: Date): number {
+export function compareInHours(start_date: Date, end_date: Date): number {
   const utc_end_date = convertToUTC(end_date);
   const compareDate = dayjs(utc_end_date).diff(start_date, 'hours');
 
@@ -29,4 +29,8 @@ export function addDays(days: number): Date {
 
 export function addHours(hours: number): Date {
   return dayjs().add(hours, 'hours').toDate();
+}
+
+export function verifyExpirationDate(start_date: Date, end_date: Date) {
+  return dayjs(start_date).isBefore(end_date);
 }
