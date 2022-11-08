@@ -27,26 +27,45 @@ describe('Create Category Controller', () => {
     await connection.close();
   });
 
-  it('Should be able to list all categories', async () => {
+  it('Should be able to create a new category ', async () => {
     const responseToken = await request(app).post('/auth').send({
       email: 'admin@rentx.com',
       password: 'admin',
     });
 
-    const { token } = responseToken.body;
+    const { refresh_token } = responseToken.body;
 
-    await request(app)
+    const response = await request(app)
       .post('/categories')
       .send({
         name: 'teste',
         description: 'testeteste',
       })
       .set({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${refresh_token}`,
       });
 
-    const response = await request(app).get('/categories');
-    expect(response.status).toBe(200);
-    expect(response.body.length).toBe(1);
+    expect(response.status).toBe(201);
+  });
+
+  it('Should not be able to create categories with repeated names', async () => {
+    const responseToken = await request(app).post('/auth').send({
+      email: 'admin@rentx.com',
+      password: 'admin',
+    });
+
+    const { refresh_token } = responseToken.body;
+
+    const response = await request(app)
+      .post('/categories')
+      .send({
+        name: 'teste',
+        description: 'testeteste',
+      })
+      .set({
+        Authorization: `Bearer ${refresh_token}`,
+      });
+
+    expect(response.status).toBe(400);
   });
 });
