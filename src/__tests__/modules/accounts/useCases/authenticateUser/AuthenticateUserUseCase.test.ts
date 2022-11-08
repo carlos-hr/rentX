@@ -1,6 +1,7 @@
 import { AppError } from '@errors/AppError';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUser';
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory';
+import { UsersTokensRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory';
 import { AuthenticateUserUseCase } from '@modules/accounts/useCases/authenticateUser/AuthenticateUserUseCase';
 import { CreateUserUseCase } from '@modules/accounts/useCases/createUser/CreateUserUseCase';
 
@@ -8,11 +9,14 @@ describe('Authenticate user', () => {
   let authenticateUserUseCase: AuthenticateUserUseCase;
   let usersRepositoryInMemory: UsersRepositoryInMemory;
   let createUserUseCase: CreateUserUseCase;
+  let usersTokensRepositoryInMemory: UsersTokensRepositoryInMemory;
 
   beforeEach(() => {
+    usersTokensRepositoryInMemory = new UsersTokensRepositoryInMemory();
     usersRepositoryInMemory = new UsersRepositoryInMemory();
     authenticateUserUseCase = new AuthenticateUserUseCase(
-      usersRepositoryInMemory
+      usersRepositoryInMemory,
+      usersTokensRepositoryInMemory
     );
     createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
   });

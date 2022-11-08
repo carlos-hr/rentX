@@ -35,11 +35,16 @@ export class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
     return userToken;
   }
 
-  deleteToken(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteToken(id: string): Promise<void> {
+    const userToken = this.usersTokens.find((userTk) => userTk.id === id);
+    this.usersTokens.splice(this.usersTokens.indexOf(userToken));
   }
 
-  findByRefreshToken(token: string): Promise<UsersTokens> {
-    throw new Error('Method not implemented.');
+  async findByRefreshToken(token: string): Promise<UsersTokens> {
+    const userToken = this.usersTokens.find(
+      (userTk) => userTk.refresh_token === token
+    );
+
+    return userToken;
   }
 }
