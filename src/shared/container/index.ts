@@ -16,6 +16,8 @@ import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTok
 import { UsersTokensRepository } from '@modules/accounts/infra/typeorm/repositories/UsersTokensRepository';
 import { IMailProvider } from './providers/MailProvider/IMailProvider';
 import { EtherealMailProvider } from './providers/MailProvider/implementations/EtherealMailProvider';
+import { IStorageProvider } from './providers/StorageProvider/IStorageProvider';
+import { LocalStorageProvider } from './providers/StorageProvider/implementations/LocalStorageProvider';
 
 container.registerSingleton<ICategoriesRepository>(
   'CategoriesRepository',
@@ -52,4 +54,9 @@ container.registerSingleton<IUsersTokensRepository>(
 container.registerInstance<IMailProvider>(
   'EtherealMailProvider',
   new EtherealMailProvider()
+);
+
+container.registerSingleton<IStorageProvider>(
+  'StorageProvider',
+  LocalStorageProvider
 );

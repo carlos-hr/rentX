@@ -10,7 +10,7 @@ import uploadConfig from '@config/upload';
 
 export const categoriesRoutes = Router();
 
-const upload = multer(uploadConfig.upload('./tmp/categories'));
+const upload = multer(uploadConfig);
 
 const createCategoryController = new CreateCategoryController();
 const importCategoryController = new ImportCategoryController();

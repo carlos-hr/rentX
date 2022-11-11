@@ -11,7 +11,7 @@ export const usersRoutes = Router();
 const createUserController = new CreateUserController();
 const insertUserAvatarController = new InsertUserAvatarController();
 
-const uploadAvatar = multer(uploadConfig.upload('./tmp/avatar'));
+const uploadAvatar = multer(uploadConfig);
 
 usersRoutes.post('/', createUserController.handle);
 
