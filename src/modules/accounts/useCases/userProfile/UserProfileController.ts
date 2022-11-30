@@ -9,14 +9,7 @@ export class UserProfileController {
     const userProfileUseCase = container.resolve(UserProfileUseCase);
 
     const user = await userProfileUseCase.execute(id);
-    const { email, name, id: userId, avatar, driver_license } = user;
 
-    return res.json({
-      email,
-      name,
-      id: userId,
-      avatar,
-      driver_license,
-    });
+    return res.json(user);
   }
 }

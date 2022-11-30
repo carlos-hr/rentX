@@ -9,6 +9,7 @@ import { AppError } from '@errors/AppError';
 import { router } from './routes';
 import swaggerSetup from '../../../swagger.json';
 import createConnection from '@shared/infra/database';
+import upload from '@config/upload';
 
 createConnection();
 
@@ -17,6 +18,9 @@ export const app = express();
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
+
+app.use('/avatar', express.static(`${upload.tmpFolder}/avatar`));
+app.use('/cars', express.static(`${upload.tmpFolder}/cars`));
 
 app.use(router);
 

@@ -7,7 +7,7 @@ const tmpFolder = resolve(__dirname, '..', '..', 'tmp');
 export default {
   tmpFolder,
   storage: multer.diskStorage({
-    destination: resolve(__dirname, '..', '..', tmpFolder),
+    destination: tmpFolder,
     filename: (req, file, callback) => {
       const fileHash = crypto.randomBytes(16).toString('hex');
       const fileName = `${fileHash}-${file.originalname}`;
