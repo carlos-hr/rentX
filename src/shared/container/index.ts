@@ -1,4 +1,5 @@
 import { container } from 'tsyringe';
+import 'dotenv/config';
 
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 import { UsersRepository } from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
@@ -18,6 +19,7 @@ import { IMailProvider } from './providers/MailProvider/IMailProvider';
 import { EtherealMailProvider } from './providers/MailProvider/implementations/EtherealMailProvider';
 import { IStorageProvider } from './providers/StorageProvider/IStorageProvider';
 import { LocalStorageProvider } from './providers/StorageProvider/implementations/LocalStorageProvider';
+import { S3StorageProvider } from './providers/StorageProvider/implementations/S3StorageProvider';
 
 container.registerSingleton<ICategoriesRepository>(
   'CategoriesRepository',
@@ -56,7 +58,12 @@ container.registerInstance<IMailProvider>(
   new EtherealMailProvider()
 );
 
+const diskStorage = {
+  local: LocalStorageProvider,
+  S3: S3StorageProvider,
+};
+
 container.registerSingleton<IStorageProvider>(
   'StorageProvider',
-  LocalStorageProvider
+  diskStorage[process.env.disk]
 );
